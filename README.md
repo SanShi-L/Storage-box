@@ -17,7 +17,7 @@
 如果使用当前自定义域名，Pages 的 **Custom domain** 填：
 
 ```text
-app.lxsanshi.site
+app.lxlsanshi.site
 ```
 
 ## 命令行发布
@@ -35,7 +35,7 @@ git push
 发布后的地址：
 
 ```text
-https://app.lxsanshi.site
+https://app.lxlsanshi.site
 ```
 
 如果 DNS 还没有生效，可以先用 GitHub Pages 默认地址访问。
