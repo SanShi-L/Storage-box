@@ -1,0 +1,28 @@
+OneDrive 云同步（Plan B）已接入 index.html，Babel 校验 + round-trip 全部通过。
+
+代码层已完成
+首页「OneDrive 云同步」卡片：未配置时显示「去设置」；配置后显示「上传到云 / 从云恢复」和已登录账号。
+登录用 MSAL.js（微软登录）+ Microsoft Graph，权限 Files.ReadWrite.AppFolder，备份文件写到你 OneDrive 的应用专属文件夹（xiaoshi-backup.json），不会乱动你其它文件。
+client_id 存在浏览器 localStorage（点卡片右上「设置」粘贴即可），不用改源码。
+登录用弹窗方式（popup），上传/恢复都有结果提示，恢复前二次确认。
+你需要做的：Azure 注册（一次性，约 5 分钟）
+打开 https://entra.microsoft.com → 左侧「应用注册 / App registrations」→「新注册 / New registration」。
+名称随便填，如 xiaoshi-shoucang。
+支持的账户类型：选「任何组织目录中的账户和个人 Microsoft 账户」(Accounts in any org directory and personal Microsoft accounts)。
+重定向 URI：平台选「单页应用程序 / Single-page application (SPA)」，填：
+
+https://app.lxlsanshi.site/
+注册后建议再到「身份验证 / Authentication」里把这个也加上（以防带 index.html 访问）：
+
+https://app.lxlsanshi.site/index.html
+点「注册」。
+进「API 权限 / API permissions」→「添加权限」→ Microsoft Graph →「委托的权限 / Delegated」→ 搜索勾选 Files.ReadWrite.AppFolder → 添加。（个人账户用这个权限登录时会让你同意，不需要管理员）
+回「概述 / Overview」，复制「应用程序(客户端) ID / Application (client) ID」。
+然后
+把这次改动 commit + push 部署上线后，在手机/电脑打开 App → 首页「OneDrive 云同步」→「去设置」→ 粘贴刚才那串 client_id → 点「上传到云」会弹出微软登录，登录并同意权限后即开始备份。换设备时同样填一次 client_id，点「从云恢复」即可。
+
+几个提醒
+必须在 https://app.lxlsanshi.site 这个正式域名下用（重定向地址要对得上）；本地 file:// 打开登录会失败。
+MSAL 从微软 CDN 加载，登录/同步都需要联网。
+目前是「手动点上传/恢复」。要不要我再加一个「保存后自动上传」的开关（防抖几秒上传一次）？
+需要我把这两轮的全部改动一起提交（commit）吗
