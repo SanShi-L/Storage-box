@@ -1,7 +1,8 @@
-const CACHE_NAME = 'xiaoshi-storage-v1';
+const CACHE_NAME = 'xiaoshi-storage-v2';
 const ASSETS = [
   './',
   './index.html',
+  './msal-browser.min.js',
   './xiaoshi.png',
   './manifest.webmanifest',
   './icons/icon-192.png',
