@@ -1,4 +1,4 @@
-const CACHE_NAME = 'xiaoshi-storage-v2';
+const CACHE_NAME = 'xiaoshi-storage-v3';
 const ASSETS = [
   './',
   './index.html',
