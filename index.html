@@ -68,6 +68,14 @@ document.addEventListener('DOMContentLoaded', async function() {
     return String(fallback == null ? 'unknown error' : fallback);
   }
   window.addEventListener('error', function(e) {
+    // iOS Safari injects its own (cross-origin) script when the native Share
+    // sheet opens; if it hiccups the browser fires an opaque "Script error."
+    // with no Error object, no filename, no line. It carries zero actionable
+    // info, so log it for the record but don't surface the red overlay for it.
+    if (!e.error && !e.filename && (!e.message || e.message === 'Script error.')) {
+      if (window.console) console.warn('[bundle] ignored opaque cross-origin error', e);
+      return;
+    }
     var loc = e.filename ? ' (' + e.filename.slice(0, 60) + ':' + e.lineno + ')' : '';
     reportErr('error:', describe(e.error, e.message || e.type) + loc);
   }, true);
